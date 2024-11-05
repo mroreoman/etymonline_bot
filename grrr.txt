@@ -1,3 +1,7 @@
 https://github.com/SSinghNet/hacknjit2024/blob/main/chatbot/app.py
 https://github.com/mroreoman/flowerscraper/blob/main/flowerscraper.py
+https://github.com/mroreoman/lifedeck/blob/main/bot.py
 https://www.etymonline.com/word/hi
+
+beautiful soup parse etymonline website
+discord bot 
