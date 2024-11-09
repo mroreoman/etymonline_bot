@@ -5,7 +5,7 @@ import bs4
 import markdownify as md
 
 class EtymResults:
-    def __init__(self, word: str, results: list[(bs4.element.Tag,bs4.element.Tag)]):
+    def __init__(self, word: str, results: list[(bs4.element.Tag, bs4.element.Tag)]):
         self.word = word
         self.results = results
     
@@ -24,14 +24,19 @@ class EtymResults:
         for result in self.results:
             title = result[0].get_text()
             description = md.markdownify(str(result[1]), strip=["a"]) # remove links bc discord markdown doesn't support them
-            url = "https://www.etymonline.com/word/" + self.word
+            url = EtymResults.get_url(self.word)
             out.append({"title": title, "url": url, "description": description})  #FIXME check length?
         if not out:
             out.append({"title": f"could not find {self.word} on etymonline", "url": f"https://www.etymonline.com/search?q={self.word}"})
         return out
+    
+    def get_url(word: str) -> str:
+        return "https://www.etymonline.com/word/" + "%20".join(word.split(" "))
 
 def search(word: str) -> EtymResults:
-    page = requests.get("https://www.etymonline.com/word/" + word)
+    url = EtymResults.get_url(word)
+    print(url)
+    page = requests.get(url)
     soup = bs4.BeautifulSoup(page.content, "html.parser")
     entries = soup.find_all("div", class_="word--C9UPa")
     results = []
